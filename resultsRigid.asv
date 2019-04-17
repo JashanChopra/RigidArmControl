@@ -65,11 +65,11 @@ for k = 1:numFiles
           ylabel('Theta [Rad]')
           xlabel('Time [s]')
           legend('Actual Theta','Reference Pos','Theoretical Pos','Overshoot Point','Settling Time')
-
-          % cut off experimental angular velocity past theoretical
-          index = find(time > t(end));
-          time(index) = []; thetaDot(index) = [];
-
+          
+          % cut off experimental angular velocity past theoretical 
+          index = find(time <= t(end));
+          
+          
           % plotting angular velocity
           figure(k + numFiles)
           plot(time,thetaDot)             % experimental theta dot
