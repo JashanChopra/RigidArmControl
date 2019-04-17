@@ -1,3 +1,4 @@
+function [time,theta,thetaDot,posRef,voltage,error] = dataRead()
 % ASEN 2003 - Lab 6 - Control Theory with Rotary Position
 % 4/16/2019 - Group 5 - Jashan Chopra, Aiden Wilson, Hugo Stetz, Adam
 % Elsayed
@@ -28,12 +29,13 @@ yyaxis left
 plot(time,theta)
 hold on
 plot(time,posRef)
-% plot(time,error,'.')
 title('Theta over time')
 ylabel('Theta [Rad]')
 xlabel('Time [s]')
-legend('Actual Theta','Reference Position','Residual Error','Rotational Velocity')
+legend('Actual Theta','Reference Position','Rotational Velocity')
 
 yyaxis right
 plot(time,thetaDot)
 ylabel('Rotational Velocity [rad/s]')
+
+end
