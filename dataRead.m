@@ -1,4 +1,4 @@
-function [time,theta,thetaDot,posRef,voltage,error,Kp,Kd] = dataRead(filename)
+function [time,theta,thetaDot,posRef,voltage,err,Kp,Kd] = dataRead(filename)
 % ASEN 2003 - Lab 6 - Control Theory with Rotary Position
 % 4/16/2019 - Group 5 - Jashan Chopra, Aiden Wilson, Hugo Stetz, Adam
 % Elsayed
@@ -22,6 +22,6 @@ thetaDot = data(:,4);                   % angular velocity [rad/s]
 posRef = data(:,6);                     % desired position [rad]
 voltage = data(:,7);                    % Ouput voltage [V]
 
-error = posRef - theta;                 % find residual
+err = posRef - theta;                 % find residual
 
 end

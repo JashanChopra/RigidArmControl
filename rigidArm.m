@@ -86,6 +86,31 @@ Rm = 19.2;          % [ohms] % armature resistance
 
 %% Read in Experimental Data
 
+numFiles = 1;         % number of files used
+for i = 1:numFiles    % itearte over each file
+
+  % read data
+  [time,theta,thetaDot,posRef,voltage,err,Kp,Kd] = dataRead(filename)
+
+  % Plotting
+  figure(i)
+  yyaxis left
+  plot(time,theta)
+  hold on
+  plot(time,posRef)
+  titleText = sprintf('Theta over time - Kp: %3.1f - Kd: %1.2f',Kp,Kd');
+  title(titleText)
+  ylabel('Theta [Rad]')
+  xlabel('Time [s]')
+
+  yyaxis right
+  plot(time,thetaDot)
+  ylabel('Rotational Velocity [rad/s]')
+  legend('Actual Theta','Reference Position','Rotational Velocity')
+
+end
+
+
 
 %% Results and Analysis
 
