@@ -8,13 +8,13 @@ This is the main script for the ASEN2003 Dynamics Lab #6
 Function Goals
     1)  develop a MATLAB simulation of the closed loop behavior of the rigid arm ( Eq. 17 )
     2)  determine the parameters for the equations of motion derived
-    3)  investigate the behavior of the step response of the flexible 
+    3)  investigate the behavior of the step response of the flexible
         Arm system for different values of proportional and derivative gains
-    4)  compute gain values for the rigid arm that will have less than 5% overshoot 
+    4)  compute gain values for the rigid arm that will have less than 5% overshoot
         and achieve a 5% settling time in less than 0.15 seconds.
 
     5)  Choose one set of gains that does not overshoot, achieves 5% settling
-        time in less than 0.5 seconds, and reduces tip deflection to less than 0.01m 
+        time in less than 0.5 seconds, and reduces tip deflection to less than 0.01m
         of residual vibrations. [Same lead up process as rigid arm]
 
     % Equations to look up: tf, step, lsim
@@ -47,15 +47,15 @@ lambda2=-q2+k1*r1+k2*r2+k4*(p2*r1-r2*p1);
 lambda3=-p1+k3*r1+k4*r2;
 %% Flexible Arm Simulation - Desired theta
 num1 = [k1*r1 0 k1*(q1*r2-r1*q2)];       % numerator
-    
+
 % denominator functions
 d4 = 1;
 d3 = lambda3;
-d2 = lambda2;                                
+d2 = lambda2;
 d1 = lambda1;
 d0 = lambda0;
 den = [d4 d3 d2 d1 d0]; %den is the same for both transfer functions
-    
+
 sysTF1 = tf(num1,den);                        % construct transfer function
 
 % Step Response

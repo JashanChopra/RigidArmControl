@@ -56,10 +56,13 @@ Rm = 19.2;          % [ohms] % armature resistance
             [x,t] = step(sysTF);                    % compute step response
             thetad = .3;                            % theta step
             thetaL = 2*thetad*x - thetad;           % scale the step values
+            
+            fitmodel = fit(t,thetaL,'cubicinterp');     % alternate method 
+            thetaLdot = differentiate(fitmodel,t);
 
-            thetaLdot = diff(thetaL) ./ diff(t);        % derivative of position
-            thetaL(end) = [];                           % remove last value
-            t(end) = [];                                % remove last value
+            % thetaLdot = diff(thetaL) ./ diff(t);        % derivative of position
+            % thetaL(end) = [];                           % remove last value
+            % t(end) = [];                                % remove last value
 
             vIn = kP(i,j)*(thetad-thetaL) + kD(i)*(-thetaLdot); % input voltage
 
