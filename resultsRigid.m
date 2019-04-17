@@ -22,8 +22,6 @@ clc; clear all; clf;
   numFiles = 1;         % number of files used
   filename = {'Group5Tests_Kp30_Kd05'};
 
-test
-
 for k = 1:numFiles
 
           num = (kP_test(k)*kG*kM) / (Jrigid * Rm);       % numerator
