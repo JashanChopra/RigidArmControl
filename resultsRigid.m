@@ -48,6 +48,19 @@ for k = 1:numFiles
 
           % Plotting
           figure(k)
+          plot(time,theta)          % experimental theta
+          hold on
+          plot(time,posRef,'--')         % experimental position reference
+          plot(t,thetaL)            % theoretical theta
+          titleText = sprintf('Theta over time - Kp: %3.1f - Kd: %1.2f',Kp,Kd');
+          title(titleText)
+          ylabel('Theta [Rad]')
+          xlabel('Time [s]')
+          legend('Actual Theta','Reference Pos','Theoretical Pos')
+end
+%{
+% Plotting
+          figure(k)
           yyaxis left
           plot(time,theta)          % experimental theta
           hold on
@@ -62,4 +75,4 @@ for k = 1:numFiles
           plot(time,thetaDot)       % right axis has angular vel
           ylabel('Rotational Velocity [rad/s]')
           legend('Actual Theta','Reference Pos','Theoretical Pos','Angular Velocity')
-end
+%}

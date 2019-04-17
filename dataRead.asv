@@ -1,4 +1,4 @@
-function [time,theta,thetaDot,posRef,voltage,error] = dataRead()
+function [time,theta,thetaDot,posRef,voltage,err,Kp,Kd] = dataRead(filename)
 % ASEN 2003 - Lab 6 - Control Theory with Rotary Position
 % 4/16/2019 - Group 5 - Jashan Chopra, Aiden Wilson, Hugo Stetz, Adam
 % Elsayed
@@ -7,10 +7,9 @@ function [time,theta,thetaDot,posRef,voltage,error] = dataRead()
 This script loads and performs trimming of physical model data
 
 %}
-clc; clear all; clf;
 
 % Read Data & Get Initial Conditions
-data = load('Group5Tests_Kp30_Kd05');   % load data file
+data = load(filename);   % load data file
 Kd = data(1,10); Kp = data(1,8);        % gather control constants
 
 time = data(:,1);                       % gather time vector
@@ -22,21 +21,14 @@ thetaDot = data(:,4);                   % angular velocity [rad/s]
 posRef = data(:,6);                     % desired position [rad]
 voltage = data(:,7);                    % Ouput voltage [V]
 
-error = posRef - theta;                 % find residual
+% remove extraneous values
+fitmodel = fit(time,theta,'cubicinterp');       % fit model with smoothingspline
+fx = abs(differentiate(fitmodel, time));        % calculate derivative
+peak = find(fx > 1);                           % find where the peak occurs
+removal = peak(1);                              % removal index
+time(1:removal,:) = [];
+theta(cutoff) = []; thetaDot(cutoff) = []; posRef(cutoff) = []; voltage(cutoff) = [];
 
-%% Plotting to understand Data
-yyaxis left
-plot(time,theta)
-hold on
-plot(time,posRef)
-titleText = 
-title('Theta over time')
-ylabel('Theta [Rad]')
-xlabel('Time [s]')
-legend('Actual Theta','Reference Position','Rotational Velocity')
-
-yyaxis right
-plot(time,thetaDot)
-ylabel('Rotational Velocity [rad/s]')
+err = posRef - theta;                 % find residual
 
 end

@@ -22,11 +22,12 @@ posRef = data(:,6);                     % desired position [rad]
 voltage = data(:,7);                    % Ouput voltage [V]
 
 % remove extraneous values
-fitmodel = fit(time,theta,'smoothingspline');   % fit model with smoothingspline
+fitmodel = fit(time,theta,'cubicinterp');       % fit model with smoothingspline
 fx = abs(differentiate(fitmodel, time));        % calculate derivative
-cutoff = find(fx < 4);                          % cutoff value
-time(cutoff) = []; time = time - time(1);       % remove and reset
-theta(cutoff) = []; thetaDot(cutoff) = []; posRef(cutoff) = []; voltage(cutoff) = [];
+peak = find(fx > 10.95);                           % find where the peak occurs
+removal = peak(1);                              % removal index
+time(1:removal,:) = []; time = time - time(1);  % remove and reset
+theta(1:removal) = []; thetaDot(1:removal) = []; posRef(1:removal) = []; voltage(1:removal) = [];
 
 err = posRef - theta;                 % find residual
 
