@@ -39,9 +39,8 @@ for k = 1:numFiles
           thetad = .3;                            % theta step
           thetaL = 2*thetad*x - thetad;           % scale the step values
 
-          thetaLdot = diff(thetaL) ./ diff(t);        % derivative of position
-          thetaL(end) = [];                           % remove last value
-          t(end) = [];                                % remove last value
+          fitmodel = fit(t,thetaL,'cubicinterp');     % alternate method
+          thetaLdot = differentiate(fitmodel,t);
 
           % read data
           [time,theta,thetaDot,posRef,voltage,err,Kp,Kd] = dataRead(filename{k});
