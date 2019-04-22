@@ -20,13 +20,12 @@ Function Goals
     % Equations to look up: tf, step, lsim
 
 %}
-function [t1,thetaL,def]=lab6_flex(k1,k2,k3,k4)
+function [t,maxthetaL,def,Vin,settlingTime]=lab6_flex(k1,k2,k3,k4)
 
 %% Define Initial Variables
 kG = 33.3;          % [no units]
 kM = .0401;         % [V / rad / sec]
 fc=1.8;             % Hz
-Jflexible = .0145;  % [kg*m^2]
 JL=.014;
 Jhub=0.0005;
 kArm=JL*(2*pi*fc)^2;
@@ -59,29 +58,43 @@ den = [d4 d3 d2 d1 d0]; %den is the same for both transfer functions
 sysTF1 = tf(num1,den);                        % construct transfer function
 
 % Step Response
-[x1,t1] = step(sysTF1);                    % compute step response
+[x1,t] = step(sysTF1);                    % compute step response
 thetad = .3;                            % theta step
-thetaL = 2*thetad*x1 - thetad;           % scale the step values
-
+thetaL = 2*thetad*x1-thetad;           % scale the step values
+thetaLinterp = 2*thetad*x1;
 %Plot theta vs time
 figure(1)
-plot(t1,thetaL)
+plot(t,thetaL)
 xlabel('Time (s)'); ylabel('Angular Position (rad)');
 title('Flexible Arm Control: Angular Position');
 
 
 %% Flexible Arm Simulation - Deflection rate
-num2 = [k2*r2 k2*(p2*r1-r2*p1) 0];
+num2 = [k1*r2 k1*(p2*r1-r2*p1) 0];
 
 sysTF2 = tf(num2,den);
 
 % Step Response
-[def,t2] = step(sysTF2);                    % compute step response
+[def,~] = step(sysTF2,t);                    % compute step response
 
 %Plot theta vs time
 figure(2)
-plot(t2,def)
+plot(t,def)
 xlabel('Time (s)'); ylabel('Tip Deflection (m)');
 title('Flexible Arm Control: Tip Deflection');
+
+%Calculate voltage
+thetaLdot = diff(thetaL) ./ diff(t);        % derivative of position
+defdot=diff(def)./diff(t);
+thetaL(end) = [];  % remove last value
+thetaLinterp(end)=[];
+t(end) = [];
+def(end)=[];
+Vin=k1*(thetad-thetaL)-k3*thetaLdot-k2*def-k4*defdot;
+
+maxthetaL=max(thetaL);
+
+%Calculate approximate settling time
+settlingTime=interp1(thetaLinterp,t,.95*2*thetad);
 
 end

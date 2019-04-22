@@ -14,7 +14,7 @@ Script Goals
         and achieve a 5% settling time in less than 0.15 seconds.
 
     5)  Choose one set of gains that does not overshoot, achieves 5% settling
-        time in less than 0.5 seconds, and reduces tip deflection to less than 0.01m
+        time in less than 0.5 secohnds, and reduces tip deflection to less than 0.01m
         of residual vibrations. [Same lead up process as rigid arm]
 %}
 clc; clear all; clf;
@@ -56,8 +56,8 @@ Rm = 19.2;          % [ohms] % armature resistance
             [x,t] = step(sysTF);                    % compute step response
             thetad = .3;                            % theta step
             thetaL = 2*thetad*x - thetad;           % scale the step values
-            
-            fitmodel = fit(t,thetaL,'cubicinterp');     % alternate method 
+
+            fitmodel = fit(t,thetaL,'cubicinterp');     % alternate method
             thetaLdot = differentiate(fitmodel,t);
 
             % thetaLdot = diff(thetaL) ./ diff(t);        % derivative of position
