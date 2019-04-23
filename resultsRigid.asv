@@ -5,7 +5,7 @@
 % This script compares the experimental data versus the predicted model behavior
 % using selected values from the rigid arm simulation testing. [Rigid Bar]
 
-clc; clear all; clf; close all;
+clc; clear all; clf;
 
 %% Simulate results with selected Kp/Kd values & plot experimental alongside
 
@@ -19,9 +19,8 @@ clc; clear all; clf; close all;
   kD_test = [.3214 .3214 .3214 .2857 .2857];            % selected deriv control parameters
   kP_test = [39.8621 38.1724 36.4828 36.4828 39.8621];            % selected prop control parameters
 
-  numFiles = 3;         % number of files used
-  filename = {'rigid1','rigid2','rigid4'};
- 
+  numFiles = 5;         % number of files used
+  filename = {'rigid1','rigid2','rigid3','rigid4','rigid5'};
 
 for k = 1:numFiles
 
